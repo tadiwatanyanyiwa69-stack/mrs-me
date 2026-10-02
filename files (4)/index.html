@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HIT Connect</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ LANDING (logged out) ============ -->
+<div id="landing">
+  <section class="hero">
+    <nav class="lnav">
+      <a class="logo" href="#">&#127891; HIT Connect</a>
+      <div class="nav-actions">
+        <button id="landingThemeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+        <button class="lbtn" data-tab="login">Login</button>
+        <button class="lbtn solid" data-tab="reg">Register</button>
+      </div>
+    </nav>
+    <div class="hwrap">
+      <div class="hcopy">
+        <h1>Your Campus.<br>Your Community.<br><span>HIT Connect.</span></h1>
+        <p>Buy &amp; sell, share skills, make friends, find love and stay connected, all in one place.</p>
+        <div class="tiles">
+          <div class="tile"><i>&#128722;</i><b>Marketplace</b><small>Buy &amp; sell products</small></div>
+          <div class="tile"><i>&#128172;</i><b>Social Feed</b><small>Share your thoughts</small></div>
+          <div class="tile"><i>&#128161;</i><b>Skills</b><small>Offer &amp; learn skills</small></div>
+          <div class="tile"><i>&#128150;</i><b>Campus Connect</b><small>Find your people</small></div>
+        </div>
+      </div>
+      <div class="authbox">
+        <div class="tabs"><button data-tab="login" class="on">Login</button><button data-tab="reg">Register</button></div>
+        <p class="hint">Use your student email, e.g. <b>h*****w@hit.ac.zw</b>. The first 2 digits are your enrolment year.</p>
+        <form id="login">
+          <label>Student email<input name="email" type="email" placeholder="h*****w@hit.ac.zw" required></label>
+          <label>Password<input name="pw" type="password" required></label>
+          <button class="btn">Login</button>
+        </form>
+        <form id="reg" hidden>
+          <label>Full name<input name="name" required maxlength="40"></label>
+          <label>Student email<input name="email" type="email" placeholder="h*****w@hit.ac.zw" pattern="[hH][0-9]{6}[a-zA-Z]@[hH][iI][tT]\.[aA][cC]\.[zZ][wW]" title="Format: h + 6 digits + 1 letter, e.g. h111111w@hit.ac.zw" required></label>
+          <label>Password (6+ characters)<input name="pw" type="password" minlength="6" required></label>
+          <button class="btn">Create account</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section class="stats" id="stats"></section>
+</div>
+
+<!-- ============ APP (logged in) ============ -->
+<div id="app" hidden>
+  <header class="top">
+    <a class="logo dark" href="#feed">&#127891; HIT Connect</a>
+    <input id="gq" class="gsearch" type="search" placeholder="Search posts, skills, products, people...">
+    <div class="top-actions">
+      <button id="appThemeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+      <div id="who"></div>
+    </div>
+  </header>
+  <div class="shell">
+    <aside id="side"><nav id="nav">
+      <a href="#feed"><i>&#127968;</i>Home</a><a href="#market"><i>&#128722;</i>Marketplace</a><a href="#skills"><i>&#128161;</i>Skills</a>
+      <a href="#connect"><i>&#128150;</i>Campus Connect</a><a href="#rate"><i>&#11088;</i>Ratings</a><a href="#messages"><i>&#128172;</i>Messages</a><a href="#profile"><i>&#128100;</i>Profile</a>
+      <button class="out" data-act="out"><i>&#128682;</i>Log out</button>
+    </nav></aside>
+
+    <main>
+      <section id="feed">
+        <form id="postForm" class="card composer">
+          <textarea name="text" maxlength="280" placeholder="What's on your mind? Use #hashtags" required></textarea>
+          <div class="row"><input name="img" type="file" accept="image/*"><button class="btn">Post</button></div>
+        </form>
+        <div id="feedList"></div>
+      </section>
+
+      <section id="market">
+        <div class="bar"><h2>Marketplace</h2>
+          <details class="add"><summary class="btn">+ Add Product</summary>
+            <form id="itemForm" class="card">
+              <label>Product<input name="title" required maxlength="60"></label>
+              <label>Price (USD)<input name="price" type="number" min="0" step="0.5" required></label>
+              <label>Category<select name="cat"><option>Electronics</option><option>Books</option><option>Home</option><option>Furniture</option><option>Other</option></select></label>
+              <label>Description<textarea name="text" maxlength="400" required></textarea></label>
+              <div class="row"><input name="img" type="file" accept="image/*"><button class="btn">List product</button></div>
+              <small class="hint">No photo? A picture for the category is used.</small>
+            </form></details></div>
+        <div class="pills" id="pillsMarket"></div>
+        <div id="marketList" class="grid"></div>
+      </section>
+
+      <section id="skills">
+        <div class="bar"><h2>Skills Directory</h2>
+          <details class="add"><summary class="btn">+ Add Skill</summary>
+            <form id="skillForm" class="card">
+              <label>Skill<input name="title" placeholder="e.g. Graphic Design" required maxlength="60"></label>
+              <label>Category<select name="cat"><option>Tutoring</option><option>Coding</option><option>Design</option><option>Media</option><option>Other</option></select></label>
+              <label>Rate (optional)<input name="rate" placeholder="$10/hr" maxlength="20"></label>
+              <label>What can you offer?<textarea name="text" maxlength="400" required></textarea></label>
+              <button class="btn">Share skill</button>
+            </form></details></div>
+        <div class="pills" id="pillsSkills"></div>
+        <div id="skillList" class="grid"></div>
+      </section>
+
+      <section id="connect">
+        <div class="bar"><h2>Find Your People</h2>
+          <details class="add"><summary class="btn">+ Create Profile</summary>
+            <form id="loveForm" class="card">
+              <p class="hint">18+ only. A picture is required. Be respectful.</p>
+              <label>Age<input name="age" type="number" min="18" max="99" required></label>
+              <label>I am a<select name="gender"><option>Male</option><option>Female</option><option>Other</option></select></label>
+              <label>Looking for<select name="kind"><option>Love</option><option>Friends</option><option>Study partner</option></select></label>
+              <label>About me and who I'm looking for<textarea name="text" maxlength="400" placeholder="Hi, I'm Takunda. I'm looking for a girl who..." required></textarea></label>
+              <div class="row"><input name="img" type="file" accept="image/*" required><button class="btn">Publish profile</button></div>
+            </form></details></div>
+        <div class="pills" id="pillsConnect"></div>
+        <div id="loveList" class="grid"></div>
+      </section>
+
+      <section id="rate">
+        <h2>Ratings</h2>
+        <p class="hint">Upload a picture with your rating to show you've met the person.</p>
+        <form id="rateForm" class="card">
+          <label>Who are you rating?<select name="to" id="rateWho" required></select></label>
+          <label>Stars<select name="stars"><option value="5">5 - Excellent</option><option value="4">4 - Good</option><option value="3">3 - Okay</option><option value="2">2 - Poor</option><option value="1">1 - Bad</option></select></label>
+          <label>Comment<textarea name="text" maxlength="300" required></textarea></label>
+          <div class="row"><input name="img" type="file" accept="image/*" required><button class="btn">Submit rating</button></div>
+        </form>
+        <div id="rateSummary" class="chips"></div>
+        <div id="rateList"></div>
+      </section>
+
+      <section id="messages">
+        <h2>Messages</h2>
+        <div class="chat card">
+          <div id="convos" class="convos"></div>
+          <div class="thread">
+            <div id="threadHeader" class="thread-header">Open conversation</div>
+            <div id="thread"></div>
+            <form id="msgForm" hidden><input name="text" placeholder="Type a message..." required autocomplete="off"><button class="btn">Send</button></form>
+          </div>
+        </div>
+      </section>
+
+      <section id="profile">
+        <div id="profHead" class="card prof"></div>
+        <div id="profPosts"></div>
+      </section>
+    </main>
+
+    <aside id="rail">
+      <div class="card"><h3>Who to follow</h3><div id="follow"></div></div>
+      <div class="card"><h3>Trending</h3><div id="trend"></div></div>
+    </aside>
+  </div>
+</div>
+
+<footer class="foot"><b>&#127891; HIT Connect</b><span>Connect &bull; Share &bull; Buy &bull; Learn &bull; Grow</span><span>hit.ac.zw</span></footer>
+<div id="toast" role="status" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>
